@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Félix Pago — Regional Growth Manager Business Case</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark: #082422;
+  --cyan: #2bf2f1;
+  --white: #ffffff;
+  --light-bg: #f0faf9;
+  --gray-100: #e8f5f4;
+  --gray-200: #c5e8e6;
+  --gray-500: #5a7a78;
+  --gray-700: #1a3d3a;
+  --accent-warm: #f59e0b;
+  --accent-red: #d04526;
+  --gradient-dark: linear-gradient(135deg, #082422 0%, #0d3834 50%, #134a45 100%);
+  --gradient-cyan: linear-gradient(135deg, #2bf2f1 0%, #0ed4d3 100%);
+  --gradient-glow: radial-gradient(ellipse at 30% 50%, rgba(43,242,241,0.15) 0%, transparent 70%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0a0a0a;
+  color: var(--white);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.deck { width: 100vw; height: 100vh; position: relative; }
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 64px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(43,242,241,0.3) transparent;
+}
+
+.slide::-webkit-scrollbar { width: 6px; }
+.slide::-webkit-scrollbar-track { background: transparent; }
+.slide::-webkit-scrollbar-thumb { background: rgba(43,242,241,0.3); border-radius: 3px; }
+
+.slide.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.bg-dark { background: var(--gradient-dark); }
+.bg-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-glow);
+  pointer-events: none;
+}
+
+.bg-light { background: var(--light-bg); color: var(--dark); }
+.bg-white { background: var(--white); color: var(--dark); }
+
+.slide-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slide-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--cyan);
+}
+
+h1 {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+}
+
+h1 .highlight {
+  background: var(--gradient-cyan);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.8px;
+  margin-bottom: 12px;
+}
+
+h3 {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.6;
+  opacity: 0.75;
+  max-width: 660px;
+  margin-bottom: 32px;
+}
+
+p, li { font-size: 14px; line-height: 1.65; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
+
+.card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(43,242,241,0.12);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  border-color: rgba(43,242,241,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(43,242,241,0.08);
+}
+
+.card.light {
+  background: var(--white);
+  border: 1px solid #e0eded;
+  color: var(--dark);
+}
+
+.card.light:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 8px 32px rgba(43,242,241,0.12);
+}
+
+.tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 50px;
+  background: rgba(43,242,241,0.15);
+  color: var(--cyan);
+  margin-bottom: 10px;
+}
+
+.bg-light .tag, .bg-white .tag { background: rgba(8,36,34,0.08); color: var(--dark); }
+
+.tag.dr { background: rgba(213,63,140,0.15); color: #e875b2; }
+.tag.co { background: rgba(245,158,11,0.15); color: #f5a623; }
+.tag.mx { background: rgba(99,179,105,0.15); color: #63b369; }
+
+.bg-light .tag.dr, .bg-white .tag.dr { background: rgba(213,63,140,0.1); color: #c43a8a; }
+.bg-light .tag.co, .bg-white .tag.co { background: rgba(245,158,11,0.1); color: #d48f00; }
+.bg-light .tag.mx, .bg-white .tag.mx { background: rgba(99,179,105,0.1); color: #3d8a43; }
+
+.table-wrap {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(43,242,241,0.12);
+}
+
+.bg-light .table-wrap, .bg-white .table-wrap { border: 1px solid #d5e5e4; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+th {
+  background: rgba(43,242,241,0.08);
+  font-weight: 700;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  border-bottom: 1px solid rgba(43,242,241,0.12);
+}
+
+.bg-light th, .bg-white th {
+  background: rgba(8,36,34,0.05);
+  color: var(--dark);
+  border-bottom: 1px solid #d5e5e4;
+}
+
+td {
+  padding: 11px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: top;
+}
+
+.bg-light td, .bg-white td { border-bottom: 1px solid #eef4f4; }
+tr:last-child td { border-bottom: none; }
+
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.flow-step {
+  background: rgba(43,242,241,0.08);
+  border: 1px solid rgba(43,242,241,0.2);
+  border-radius: 12px;
+  padding: 16px 20px;
+  flex: 1;
+  min-width: 160px;
+  text-align: center;
+}
+
+.flow-arrow {
+  font-size: 20px;
+  color: var(--cyan);
+  padding: 0 6px;
+  flex-shrink: 0;
+}
+
+.flow-step .flow-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--cyan);
+  margin-bottom: 6px;
+}
+
+.flow-step p { font-size: 12px; opacity: 0.8; line-height: 1.5; }
+
+.verdict-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+.verdict-box { border-radius: 14px; padding: 20px; }
+.verdict-box.keep { background: rgba(43,242,241,0.08); border: 1px solid rgba(43,242,241,0.25); }
+.verdict-box.adapt { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); }
+.verdict-box.discard { background: rgba(208,69,38,0.08); border: 1px solid rgba(208,69,38,0.25); }
+
+.verdict-box h3 { font-size: 14px; margin-bottom: 10px; }
+.verdict-box.keep h3 { color: var(--cyan); }
+.verdict-box.adapt h3 { color: var(--accent-warm); }
+.verdict-box.discard h3 { color: var(--accent-red); }
+
+.verdict-box ul { list-style: none; font-size: 12px; }
+.verdict-box li { padding: 4px 0; font-size: 12px; padding-left: 16px; position: relative; }
+.verdict-box.keep li::before { content: '+'; position: absolute; left: 0; color: var(--cyan); font-weight: 700; }
+.verdict-box.adapt li::before { content: '~'; position: absolute; left: 0; color: var(--accent-warm); font-weight: 700; }
+.verdict-box.discard li::before { content: '—'; position: absolute; left: 0; color: var(--accent-red); font-weight: 700; }
+
+.metric { text-align: center; padding: 20px 16px; }
+
+.metric .num {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: var(--gradient-cyan);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.metric .label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--gradient-cyan);
+  z-index: 100;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 12px rgba(43,242,241,0.5);
+}
+
+.nav {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 100;
+  background: rgba(8,36,34,0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(43,242,241,0.15);
+  border-radius: 50px;
+  padding: 8px 20px;
+}
+
+.nav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-dot.active {
+  background: var(--cyan);
+  box-shadow: 0 0 10px rgba(43,242,241,0.5);
+  transform: scale(1.2);
+}
+
+.nav-dot:hover:not(.active) { background: rgba(255,255,255,0.4); }
+
+.nav-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.5px;
+  margin: 0 8px;
+  min-width: 28px;
+  text-align: center;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--cyan);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.nav-btn:hover { opacity: 1; }
+
+.felix-logo {
+  position: fixed;
+  top: 24px;
+  left: 40px;
+  z-index: 100;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.felix-logo span {
+  background: var(--gradient-cyan);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.slide-cover {
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 80px;
+}
+
+.slide-cover h1 { font-size: 60px; letter-spacing: -2px; }
+
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  min-height: 0;
+  padding-bottom: 60px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.section-divider {
+  width: 40px;
+  height: 3px;
+  background: var(--cyan);
+  border-radius: 2px;
+  margin: 8px 0 16px;
+}
+
+.bg-light .section-divider, .bg-white .section-divider { background: var(--dark); }
+
+.compact-list { list-style: none; font-size: 13px; }
+
+.compact-list li {
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.compact-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+
+.bg-light .compact-list li::before, .bg-white .compact-list li::before { background: var(--dark); }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide.active .anim {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.slide.active .anim-d1 { animation-delay: 0.1s; }
+.slide.active .anim-d2 { animation-delay: 0.2s; }
+.slide.active .anim-d3 { animation-delay: 0.3s; }
+.slide.active .anim-d4 { animation-delay: 0.4s; }
+.slide.active .anim-d5 { animation-delay: 0.5s; }
+.slide.active .anim-d6 { animation-delay: 0.6s; }
+
+.callout {
+  background: rgba(43,242,241,0.06);
+  border-left: 3px solid var(--cyan);
+  border-radius: 0 10px 10px 0;
+  padding: 14px 18px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.bg-light .callout { background: rgba(8,36,34,0.04); border-left-color: var(--dark); }
+
+.timeline {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), rgba(43,242,241,0.3));
+}
+
+.timeline-phase { text-align: center; padding: 0 16px; position: relative; }
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--cyan);
+  margin: 14px auto 16px;
+  box-shadow: 0 0 12px rgba(43,242,241,0.5);
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-phase h3 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--cyan);
+  margin-bottom: 4px;
+}
+
+.timeline-phase p { font-size: 12px; opacity: 0.7; line-height: 1.5; }
+
+/* ── Voice note style ── */
+.voice-note {
+  background: rgba(43,242,241,0.05);
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 13px;
+  line-height: 1.65;
+  font-style: italic;
+  opacity: 0.85;
+  position: relative;
+  margin: 8px 0;
+}
+
+.voice-note::before {
+  content: '"';
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--cyan);
+  opacity: 0.4;
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  line-height: 1;
+}
+
+.voice-note p { padding-left: 20px; }
+
+.bg-light .voice-note {
+  background: rgba(8,36,34,0.04);
+}
+
+.bg-light .voice-note::before {
+  color: var(--dark);
+}
+
+/* ── Honest take badge ── */
+.honest-take {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 50px;
+  background: rgba(208,69,38,0.12);
+  color: var(--accent-red);
+  margin-bottom: 8px;
+}
+
+@media (max-width: 1100px) {
+  .slide { padding: 36px 40px; }
+  h1 { font-size: 40px; }
+  .slide-cover h1 { font-size: 48px; }
+  h2 { font-size: 28px; }
+  .grid-2, .two-col { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+  .verdict-grid { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: 1fr; gap: 16px; }
+  .timeline::before { display: none; }
+  .flow { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); }
+}
+
+/* ─────────── PRINT / PDF EXPORT ─────────── */
+@media print {
+  @page {
+    size: 16in 10in landscape;
+    margin: 0;
+  }
+
+  /* Force color accuracy on every element */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  html, body {
+    background: #082422 !important;
+    overflow: visible !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide interactive UI */
+  .nav, .progress-bar, .felix-logo { display: none !important; }
+
+  /* Reset deck so slides flow vertically */
+  .deck {
+    width: 100% !important;
+    height: auto !important;
+    position: static !important;
+    overflow: visible !important;
+  }
+
+  /* Each slide is its own printed page(s) */
+  .slide {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 10in !important;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    overflow: visible !important;
+    padding: 40px 56px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+  }
+
+  .slide:last-child {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
+  /* Disable ALL animations & transitions */
+  *, .slide .anim, .slide.active .anim {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .anim {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Force gradient backgrounds to print */
+  .bg-dark {
+    background: #082422 !important;
+    color: #ffffff !important;
+  }
+  .bg-dark::before { display: none !important; }
+
+  .bg-light {
+    background: #f0faf9 !important;
+    color: #082422 !important;
+  }
+
+  .bg-white {
+    background: #ffffff !important;
+    color: #082422 !important;
+  }
+
+  /* Keep cards & callouts intact — don't split mid-card */
+  .card, .verdict-box, .callout, .flow-step, .metric, .timeline-phase {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Tables: allow long tables to span pages, but never break inside a row */
+  .table-wrap {
+    overflow: visible !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+
+  table {
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+    border-collapse: collapse !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  thead {
+    display: table-header-group !important;
+  }
+
+  /* Expand ALL scroll containers */
+  .content-area {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  /* Prevent headings from splitting from their content */
+  h1, h2, h3, h4 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* Images/icons stay with their content */
+  img, svg {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    max-width: 100% !important;
+  }
+
+  /* Ensure the cover has its metrics visible */
+  .slide-cover .metric .num {
+    color: #2bf2f1 !important;
+    -webkit-text-fill-color: #2bf2f1 !important;
+  }
+
+  /* Force gradient text to render as solid cyan on print */
+  .highlight, .metric .num, .felix-logo span {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #2bf2f1 !important;
+    color: #2bf2f1 !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="felix-logo"><span>F&eacute;lix</span></div>
+<div class="progress-bar" id="progress"></div>
+
+<div class="deck" id="deck">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SLIDE 0: COVER -->
+<!-- ═══════════════════════════════════════ -->
+<div class="slide slide-cover bg-dark active" data-slide="0">
+  <div class="slide-label anim anim-d1">Business Case</div>
+  <h1 class="anim anim-d2">Growing F&eacute;lix in<br><span class="highlight">DR & Colombia</span></h1>
+  <p class="subtitle anim anim-d3">A corridor-specific approach to acquisition, conversion, and early retention for the Dominican and Colombian communities in the U.S.</p>
+  <p class="anim anim-d3" style="font-size: 20px; opacity: 0.85; margin-bottom: 36px; letter-spacing: 0.3px;">Presented by <strong style="color: var(--cyan); font-size: 34px; font-weight: 800; letter-spacing: -0.8px; display: block; margin-top: 6px;">Paula Hern&aacute;ndez</strong></p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 920px;" class="anim anim-d4">
+
+    <!-- DR -->
+    <div style="border: 1px solid rgba(43,242,241,0.15); border-radius: 16px; padding: 22px 24px; background: rgba(255,255,255,0.03);">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <span style="font-size: 22px;">&#127465;&#127476;</span>
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan);">Dominican Republic</span>
+      </div>
+      <div class="metric" style="padding: 4px 0 14px; text-align: left; border-bottom: 1px solid rgba(43,242,241,0.1); margin-bottom: 14px;">
+        <div class="num" style="font-size: 40px;">~$9.1B</div>
+        <div class="label" style="text-align: left;">Received from the U.S. (2024) &nbsp;&middot;&nbsp; ~85% of total</div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--cyan);">$10.7B</div>
+          <div style="font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">Total remittances '24</div>
+        </div>
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--cyan);">16x/yr</div>
+          <div style="font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">Send frequency<br>(highest in Latin America)</div>
+        </div>
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--cyan);">~$300</div>
+          <div style="font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">Avg send size</div>
+        </div>
+      </div>
+      <p style="font-size: 11px; opacity: 0.55; margin-top: 12px; line-height: 1.5;">~1 in every 10 dollars in DR's economy comes from family abroad. Concentrated in NY/NJ. Only ~29% of recipients use bank deposits &mdash; cash pickup still dominant.</p>
+    </div>
+
+    <!-- CO -->
+    <div style="border: 1px solid rgba(43,242,241,0.15); border-radius: 16px; padding: 22px 24px; background: rgba(255,255,255,0.03);">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <span style="font-size: 22px;">&#127464;&#127476;</span>
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan);">Colombia</span>
+      </div>
+      <div class="metric" style="padding: 4px 0 14px; text-align: left; border-bottom: 1px solid rgba(43,242,241,0.1); margin-bottom: 14px;">
+        <div class="num" style="font-size: 40px;">~$6.9B</div>
+        <div class="label" style="text-align: left;">Received from the U.S. (2025) &nbsp;&middot;&nbsp; 53% of total</div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--cyan);">~$220</div>
+          <div style="font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">Avg send size</div>
+        </div>
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--cyan);">8-10x/yr</div>
+          <div style="font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">Send frequency</div>
+        </div>
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--cyan);">~30%</div>
+          <div style="font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">Of CO community<br>lives in Florida</div>
+        </div>
+      </div>
+      <p style="font-size: 11px; opacity: 0.55; margin-top: 12px; line-height: 1.5;">3rd largest remittance receiver in Latin America (after Mexico & Guatemala). Concentrated in FL, NY, NJ, TX, CA. High fintech adoption.</p>
+    </div>
+
+  </div>
+  <p class="anim anim-d4" style="font-size: 11px; opacity: 0.45; margin-top: 18px; max-width: 920px;">Sources: Banco Central RD, Banco de la Rep&uacute;blica Colombia, Inter-American Dialogue, Migration Policy Institute (2024-2025).</p>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SLIDE 1: CAMPAIGN CRITIQUE -->
+<!-- ═══════════════════════════════════════ -->
+<div class="slide bg-dark" data-slide="1">
+  <div class="slide-label anim anim-d1">Task 1</div>
+  <h2 class="anim anim-d2">What I see in the campaigns<br><span style="color: var(--cyan);">&mdash; and what I'd change</span></h2>
+  <div class="content-area">
+
+    <div class="anim anim-d2">
+      <div style="background: rgba(43,242,241,0.04); border-left: 3px solid var(--cyan); border-radius: 0 12px 12px 0; padding: 14px 20px; margin-bottom: 8px;">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px;">My framework</div>
+        <p style="font-size: 11px; line-height: 1.5; opacity: 0.85;">When I evaluate a remittance campaign, I look at things like: <strong>the right spokesperson</strong>, <strong>the right cultural codes</strong> (language, music, food, setting), <strong>trust signals</strong> (bank logos, real testimonials), <strong>a clear value proposition</strong> vs. competitors, and <strong>a direct path to action</strong> on WhatsApp.</p>
+      </div>
+    </div>
+
+    <!-- Analysis — 2 finding cards, side-by-side, equal structure -->
+    <div class="anim anim-d3">
+      <h3 style="margin-bottom: 14px;">Analysis</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch;">
+
+        <!-- FINDING 01: RELEVANCE -->
+        <div style="background: linear-gradient(180deg, rgba(43,242,241,0.06) 0%, rgba(43,242,241,0.02) 100%); border: 1px solid rgba(43,242,241,0.18); border-radius: 16px; padding: 24px; display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(43,242,241,0.15); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: var(--cyan); flex-shrink: 0;">01</div>
+            <div>
+              <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan); opacity: 0.7;">Relevance</div>
+              <div style="font-size: 18px; font-weight: 800; line-height: 1.2; margin-top: 2px;">Built for Mexico, stretched everywhere else.</div>
+            </div>
+          </div>
+          <ul style="font-size: 10px; line-height: 1.5; padding-left: 16px; margin: 0; opacity: 0.85;">
+            <li style="margin-bottom: 6px;"><strong>Smart move:</strong> F&eacute;lix is using recognized personalities to borrow credibility in a trust-driven category. <strong>Caterine Ibarg&uuml;en is the right call for Colombia</strong>; <strong>El Perro Berm&uacute;dez doesn't translate</strong> to DR or CO. The principle works &mdash; the talent just needs to fit each audience.</li>
+            <li style="margin-bottom: 6px;"><strong>"I See Colombia" is the gold standard</strong> &mdash; Caterine Ibarg&uuml;en, vallenato, Colombian accent, coffee. DR doesn't have an equivalent yet.</li>
+            <li style="margin-bottom: 6px;"><strong>Shared emotional themes do land</strong> (immigrant experience, family bond, D&iacute;a de la Madre) &mdash; but music, food, spokesperson and in-app screens are all Mexico-coded.</li>
+            <li><strong>SDFC f&uacute;tbol works for CO</strong> (Colombian player + sport), still needs tropicalization. <strong>For DR it misses &mdash; baseball is identity</strong>, not soccer.</li>
+          </ul>
+        </div>
+
+        <!-- FINDING 02: CONVERSION -->
+        <div style="background: linear-gradient(180deg, rgba(43,242,241,0.06) 0%, rgba(43,242,241,0.02) 100%); border: 1px solid rgba(43,242,241,0.18); border-radius: 16px; padding: 24px; display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(43,242,241,0.15); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: var(--cyan); flex-shrink: 0;">02</div>
+            <div>
+              <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan); opacity: 0.7;">Conversion</div>
+              <div style="font-size: 18px; font-weight: 800; line-height: 1.2; margin-top: 2px;">Strong branding, weak conversion.</div>
+            </div>
+          </div>
+          <p style="font-size: 10px; line-height: 1.5; margin: 0 0 10px; opacity: 0.75;">Spots build awareness but don't drive action. The value proposition is missing.</p>
+          <div style="font-size: 10px; font-weight: 700; color: var(--cyan); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px;">What to add</div>
+          <ul style="font-size: 10px; line-height: 1.5; padding-left: 16px; margin: 0; opacity: 0.85;">
+            <li style="margin-bottom: 6px;"><strong>Lead with the value prop:</strong> price, free first transfer, speed (money in minutes), ease (just WhatsApp &mdash; no app, no forms, no lines).</li>
+            <li style="margin-bottom: 6px;"><strong>Show payout logos:</strong> Bancolombia, Davivienda, &Eacute;xito (CO); Banreservas (DR &mdash; plus Caribe Express when it launches). The fastest way to earn trust.</li>
+            <li><strong>SEO captions + WhatsApp link</strong> in every description. Use high-intent terms: "enviar dinero a Colombia," "remesas a Rep&uacute;blica Dominicana," "mandar dinero por WhatsApp."</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DR vs CO divergence -->
+    <div class="anim anim-d4">
+      <h3 style="margin-bottom: 8px;">Where my view differs between Dominicans and Colombians</h3>
+      <div class="two-col" style="align-items: stretch;">
+        <div class="card" style="border-left: 3px solid #e875b2; height: 100%;">
+          <div class="tag dr">&#127465;&#127476; Dominicans</div>
+          <ul style="font-size: 11px; line-height: 1.5; padding-left: 18px; margin: 0;">
+            <li><strong>Original creative built specifically for them</strong> &mdash; not adaptations.</li>
+            <li>Use the right cultural codes: dembow/bachata/merengue, baseball (Juan Soto), Washington Heights.</li>
+            <li><strong>Trust beats inspiration.</strong> They want safety, not aspiration.</li>
+            <li>Dominican spokesperson + real testimonials.</li>
+            <li>Show <strong>people picking up money in cash</strong> at Banreservas or current cash-pickup partners (Caribe Express once it launches).</li>
+          </ul>
+        </div>
+        <div class="card" style="border-left: 3px solid #f5a623; height: 100%;">
+          <div class="tag co">&#127464;&#127476; Colombians</div>
+          <ul style="font-size: 11px; line-height: 1.5; padding-left: 18px; margin: 0;">
+            <li><strong>"I See Colombia" already works</strong> &mdash; the Caterine Ibarg&uuml;en concept is a strong base.</li>
+            <li>Make the value props explicit: instead of just saying "r&aacute;pido," show <strong>exact delivery time, price, and benefits</strong> (free first transfer, low commission). Plus visible payout logos (Bancolombia, Davivienda, &Eacute;xito).</li>
+            <li>Younger, digital-native audience &mdash; <strong>f&uacute;tbol, m&uacute;sica and lifestyle creators</strong> convert well.</li>
+            <li><strong>Big opportunity:</strong> expand to other regions (coste&ntilde;os from Barranquilla/Cartagena, valluneos from Cali, rolos from Bogot&aacute;) so every Colombian in the U.S. sees their region reflected.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SLIDE 2: 90-DAY PRIORITIES -->
+<!-- ═══════════════════════════════════════ -->
+<div class="slide bg-dark" data-slide="2">
+  <div class="slide-label anim anim-d1">Task 2 &mdash; The Full Picture</div>
+  <h2 class="anim anim-d2" style="font-size: 28px; margin-bottom: 6px;">My 90-day priorities</h2>
+
+  <div class="content-area" style="gap: 12px;">
+
+    <!-- Foundation note -->
+    <div class="anim anim-d3" style="background: rgba(43,242,241,0.06); border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; padding: 12px 16px; margin-bottom: 10px;">
+      <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 8px;">Foundation &middot; Week 1-2 &mdash; before any campaign goes live</div>
+      <ul style="font-size: 10px; line-height: 1.5; margin: 0 0 6px; padding-left: 18px; opacity: 0.85;">
+        <li><strong>Market intelligence:</strong> audit past campaigns, competitors, and audience research for both corridors.</li>
+        <li><strong>Channel tropicalization:</strong> Website, WhatsApp, Social media, Paid ads, and customer journey adapted per corridor.</li>
+      </ul>
+      <p style="font-size: 10px; line-height: 1.5; margin: 6px 0 0; color: var(--cyan); font-weight: 700;">Everything needs to be in place before we start spending.</p>
+    </div>
+
+    <!-- Single priorities table -->
+    <div class="table-wrap anim anim-d4 priorities-table" style="font-size: 10px;">
+      <table style="font-size: 9px;">
+        <tr>
+          <th style="width:15%; padding: 6px 10px;">Priority</th>
+          <th style="width:31%; padding: 6px 10px;">Why it matters</th>
+          <th style="width:27%; padding: 6px 10px;"><span class="tag dr" style="margin:0;">DR</span></th>
+          <th style="width:27%; padding: 6px 10px;"><span class="tag co" style="margin:0;">CO</span></th>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">Influencers & creators</td>
+          <td>Builds trust faster than brand ads, drives digital conversion, and shows real people using F&eacute;lix at every level &mdash; from celebrities to micro talents. <strong>Use a full mix of talent:</strong> macro creators for reach and credibility (sports figures, TV personalities, beauty queens) and micro-to-mid-tier creators for hyper-local targeting (including immigration voices). Their content also feeds the paid channel.</td>
+          <td>Baseball figures, DR TV, Heights creators.</td>
+          <td>F&uacute;tbol figures, CO TV, regional creators.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">Cultural & community events</td>
+          <td>Show up where the community gathers in moments of high cultural pride and emotion &mdash; that's when people are most connected to home and most open to sending money. <strong>Not just the big events</strong> (parades, festivals) &mdash; also the small community gatherings (neighborhood fairs, local sports games, cultural nights, church events). <strong>Since F&eacute;lix is a digital product, seeing a real human behind the brand creates trust</strong> in a way a screen never can.</td>
+          <td><strong>Key dates:</strong> Independencia Dominicana (Feb 27), D&iacute;a de la Madre (2nd Sun May), Dominican Day Parade NYC (Aug 9, 400K+), Dominican Parade NJ (Sep 13), LIDOM baseball (Oct&ndash;Feb), D&iacute;a de Reyes (Jan 6), Navidad.</td>
+          <td><strong>July is the biggest month:</strong> Colombian Independence Day (Jul 20) triggers 8+ festivals across the U.S. in a single week (Chicago, Dallas, Houston, Miami, NYC, Fort Lauderdale). Plus D&iacute;a de la Madre (May), Novenas + Feria de Cali (Dec 16&ndash;30).</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">Field activation</td>
+          <td>Physical trust-building through the spaces and people the community already trusts. Activate community ambassadors (bodega owners, barbershop owners, cultural center directors, local sports figures) on the ground &mdash; <strong>each one gets a unique referral link or QR code and earns a reward for every new user they bring in.</strong> Builds trust and aligns incentives.</td>
+          <td>Bodegas, barbershops, churches in Heights/Bronx/Paterson. Community leaders as ambassadors. <strong>Biggest unlock for DR.</strong></td>
+          <td>Restaurants and local meetups in Doral/Miami/Queens. Supplementary, not primary.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">PR & earned media</td>
+          <td>Creates trust. Gives third-party credibility, reaches audiences who don't engage with paid social, and creates word-of-mouth.</td>
+          <td>Univisi&oacute;n/Telemundo, El Diario, Heights radio.</td>
+          <td>Caracol, RCN, CO podcasts, South FL press.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">OOH, podcasts & streaming</td>
+          <td>Physical, audio, and streaming placements targeted to the exact zip codes where DR and CO diaspora live. Creates offline and cord-cutter impressions in high-density zones that digital-only campaigns miss.</td>
+          <td>Subways in NYC (Washington Heights, Bronx). Transit in Paterson, NJ. Dominican podcasts. Vix and Prime Video in DR zip codes.</td>
+          <td>Billboards and transit in Doral, Kendall, Weston. Colombian podcasts. Vix and Prime Video in CO zip codes.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Transversal note -->
+    <div class="anim anim-d5" style="background: rgba(43,242,241,0.06); border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; padding: 10px 14px; margin-top: 12px;">
+      <p style="font-size: 11px; line-height: 1.55; margin: 0; opacity: 0.9;"><strong style="color: var(--cyan);">Paid media & social media strategy run across all initiatives.</strong> They're not standalone &mdash; they amplify and complement every stage. Creator content becomes paid ads. Field activation moments become social posts. Cultural events become IG Reels. PR hits become boosted content. Every initiative feeds the paid + social engine.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SLIDE 3: DEEP DIVE - CREATORS -->
+<!-- ═══════════════════════════════════════ -->
+<div class="slide bg-dark" data-slide="3">
+  <div class="slide-label anim anim-d1">Deep Dive 1 &middot; Highest-impact initiative</div>
+  <h2 class="anim anim-d2">Influencers & creators</h2>
+
+  <div class="content-area">
+
+    <!-- Why this one -->
+    <div class="anim anim-d2" style="background: rgba(43,242,241,0.06); border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; padding: 10px 16px; margin-bottom: 10px;">
+      <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px;">Why this is the deep dive</div>
+      <p style="font-size: 12px; line-height: 1.6; margin: 0; opacity: 0.85;">Creators unlock all three goals: <strong>acquisition</strong> (reach the right audience fast), <strong>first transaction</strong> ("people I follow use this" gets past the trust barrier), and <strong>second transaction</strong> (content throughout the 30 days keeps users sending). Plus their content powers paid and social channels.</p>
+    </div>
+
+    <!-- Talent mix strategy -->
+    <div class="anim anim-d2" style="background: rgba(43,242,241,0.06); border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; padding: 10px 16px; margin-bottom: 10px;">
+      <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px;">The talent mix</div>
+      <p style="font-size: 12px; line-height: 1.6; margin: 0; opacity: 0.85;"><strong>Macro creators for reach and credibility</strong> (sports figures, TV personalities, beauty queens) + <strong>micro-to-mid-tier creators for hyper-local targeting</strong> (neighborhood accounts, community voices, lifestyle creators, immigration voices). The two layers work together: macro builds awareness, micro builds trust. Both feed paid and social.</p>
+    </div>
+
+    <!-- Messaging -->
+    <div class="anim anim-d2" style="background: rgba(43,242,241,0.06); border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; padding: 10px 16px; margin-bottom: 14px;">
+      <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px;">Messaging &mdash; tailored to each audience</div>
+      <p style="font-size: 12px; line-height: 1.55; margin: 0 0 6px; opacity: 0.85;"><strong>Every piece of creative is built for the audience it's speaking to</strong> &mdash; flags, people, music, food, slang, and the value props that matter most to that community. No translations, no adaptations of Mexican spots.</p>
+      <ul style="font-size: 11px; line-height: 1.5; margin: 0; padding-left: 18px; opacity: 0.85;">
+        <li><strong>DR:</strong> Dominican faces and accents, dembow/bachata/merengue, baseball references, Banreservas / Caribe Express logos, "manda y ll&eacute;galo en minutos." Emotional pull = mam&aacute;, abuela, el barrio.</li>
+        <li><strong>CO:</strong> Colombian faces and accents (with regional nuance &mdash; coste&ntilde;o, paisa, rolo), vallenato/reggaet&oacute;n, Bancolombia / Davivienda / &Eacute;xito logos, "primer env&iacute;o gratis, sin comisiones escondidas." Emotional pull = familia, regi&oacute;n, orgullo.</li>
+        <li><strong>Both:</strong> always lead with value (free first send, speed, no app), show payout proof, end with WhatsApp CTA.</li>
+      </ul>
+    </div>
+
+    <div class="grid-3 anim anim-d3">
+      <div class="card">
+        <div class="tag">Month 1 &middot; Source & onboard</div>
+        <h3>Find the right voices</h3>
+        <ul class="compact-list" style="font-size:11px;">
+          <li><strong>Source talents</strong> &mdash; check demographics, engagement, audience location, sentiment, brand safety.</li>
+          <li><strong>Pitch, negotiate contracts.</strong></li>
+          <li><strong>Negotiate content packages</strong> (videos [Reels/TikTok] + Stories) with <strong>one deliverable per week</strong>. Extends the campaign, spreads reach across different days, improves tracking, and gives us multiple touchpoints to drive a second transaction.</li>
+          <li><strong>Write briefs</strong> tailored to each community: highlight F&eacute;lix's value (price, speed, free first transfer, ease), include a strong CTA driving to WhatsApp, and trackable links for every post, Story and bio (if applicable).</li>
+          <li><strong>Schedule and post across all their platforms</strong> (IG, TikTok, YouTube, Facebook), with co-branded collabs alongside the social media team when applicable.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="tag">Month 2 &middot; Test & scale</div>
+        <h3>Double down on winners</h3>
+        <ul class="compact-list" style="font-size:11px;">
+          <li>Identify the top creators per corridor driving actual transactions.</li>
+          <li><strong>Test with Spark Ads first</strong> before graduating to full paid campaigns.</li>
+          <li><strong>Reuse creator content for paid ads</strong> across all platforms (Meta, TikTok, YouTube, and more).</li>
+          <li><strong>Reuse creator content</strong> on the website (testimonials, landing pages) and in targeted email campaigns.</li>
+          <li>Sign the best performers to <strong>longer deals (3-6 months)</strong> to build consistency.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="tag">Month 3 &middot; Expand & retain</div>
+        <h3>Ongoing campaign, wider reach</h3>
+        <ul class="compact-list" style="font-size:11px;">
+          <li><strong>Launch the micro-creator affiliate program</strong> &mdash; pay per new customer, not per post.</li>
+          <li><strong>Keep the campaign running</strong> with rotating new creators each month to expand reach and hit new audience segments.</li>
+          <li><strong>Re-engage only high-conversion creators</strong> from previous months &mdash; not the ones who mostly drove views.</li>
+          <li>Layer creator-referenced WhatsApp nudges and automatic monthly sends (especially DR) to drive second transactions.</li>
+        </ul>
+      </div>
+    </div>
+
+<div class="two-col anim anim-d5">
+      <div>
+        <h3 style="color: var(--cyan);">What I own</h3>
+        <div class="section-divider"></div>
+        <ul class="compact-list" style="font-size:12px;">
+          <li><strong>Strategy & sourcing:</strong> creator scouting, recruitment, contracts, on-the-ground events.</li>
+          <li><strong>Briefs & cultural fit:</strong> tailored briefs per community &mdash; not translations.</li>
+          <li><strong>Performance:</strong> tracking what converts, not what looks good.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Where I need help from the marketing team</h3>
+        <div class="section-divider"></div>
+        <ul class="compact-list" style="font-size:12px;">
+          <li><strong>Paid ads:</strong> Spark Ads and paid campaigns using creator content. <strong>CRM:</strong> promoting top creator videos to build trust with our existing base. <strong>Social media:</strong> complementary posts between creator drops and comment management.</li>
+        </ul>
+      </div>
+    </div>
+
+<!-- What we'd measure -->
+    <div class="anim anim-d6">
+      <h3 style="margin-bottom: 10px;">What we'd measure</h3>
+      <div class="grid-3">
+        <div class="card">
+          <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px;">Conversion</div>
+          <ul class="compact-list" style="font-size: 12px;">
+            <li>Link clicks &rarr; WhatsApp conversations</li>
+          <li>First sends and 30-day repeat rate</li>
+          <li>CAC, measured in new senders within that period</li>
+          <li><strong>Lift in new senders to the creator's corridor</strong> &mdash; DR creators drive DR, CO drives CO</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px;">Engagement</div>
+          <ul class="compact-list" style="font-size: 12px;">
+            <li>Views, likes, saves, shares, comments per creator</li>
+          <li>Average watch time, video retention rate, CPV, CPC</li>
+          <li>Comment sentiment (positive / neutral / negative)</li>
+          <li>Follower growth by region + engagement lift on F&eacute;lix's other posts during the campaign</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px;">Traffic & brand lift</div>
+          <ul class="compact-list" style="font-size: 12px;">
+            <li>Branded search and direct type-ins to felixpago.com</li>
+          <li>Traffic from creator cities/zips in target metros (NY, FL, NJ, TX), with spikes on creator posting days</li>
+          <li>Searches for "remittances to DR/CO" + visits to corridor pages</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SLIDE 4: DEEP DIVE - FIELD + METRICS -->
+<!-- ═══════════════════════════════════════ -->
+<div class="slide bg-dark" data-slide="4">
+  <div class="slide-label anim anim-d1">Deep Dive 2 &middot; DR-specific high-impact play</div>
+  <h2 class="anim anim-d2">Field activation <span style="color: var(--cyan);">(DR focus)</span></h2>
+  <p class="subtitle anim anim-d2">How showing up in person helps us <strong>acquire users, convert them to a first transaction, and drive the second one quickly</strong> &mdash; in the corridor where digital alone won't break the habit.</p>
+
+  <div class="content-area">
+
+    <!-- Why this one -->
+    <div class="anim anim-d2" style="background: rgba(43,242,241,0.06); border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; padding: 12px 16px; margin-bottom: 14px;">
+      <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px;">Why this is the second deep dive</div>
+      <ul style="font-size: 12px; line-height: 1.55; margin: 0; padding-left: 18px; opacity: 0.85;">
+        <li><strong>Acquisition:</strong> the DR community is older, more habit-driven, and uses the same remittance providers for years. Digital ads alone can't break that &mdash; you need to be present in their world.</li>
+        <li><strong>First transaction:</strong> in-person guidance kills the fear of trying a new app. Someone walks you through the sign-up and you watch the money arrive in real time.</li>
+        <li><strong>Second transaction:</strong> bodegas, barbershops and churches become recurring reminders. The community itself becomes the retention loop.</li>
+        <li><strong>Why DR specifically:</strong> this is the biggest gap in Mexico's playbook (won online). DR needs hybrid &mdash; digital for scale, physical for trust.</li>
+      </ul>
+    </div>
+
+    <div class="two-col anim anim-d3">
+      <div>
+        <h3 style="color: var(--cyan);">Why this matters more for DR than CO</h3>
+        <div class="section-divider"></div>
+        <ul class="compact-list" style="font-size:12px;">
+          <li>DR community in NYC is more conservative with money. Same habit for years.</li>
+          <li>Only <strong>~29% use bank deposits</strong> in DR. Most pick up cash at agents.</li>
+          <li>Word of mouth happens at bodegas, barbershops, church.</li>
+          <li>Mexico was won online. DR needs hybrid: digital to scale, physical to trust.</li>
+        </ul>
+
+        <h3 style="margin-top: 20px; color: var(--cyan);">Where specifically</h3>
+        <div class="section-divider"></div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(43,242,241,0.12); color: var(--cyan); padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 600;">Washington Heights</span>
+          <span style="background: rgba(43,242,241,0.12); color: var(--cyan); padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 600;">The Bronx</span>
+          <span style="background: rgba(43,242,241,0.12); color: var(--cyan); padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 600;">Paterson, NJ</span>
+        </div>
+        <p style="font-size: 11px; opacity: 0.5; margin-top: 8px;">NY and NJ &mdash; the highest-density Dominican areas in the U.S. Win here, word spreads.</p>
+      </div>
+
+      <div>
+        <h3 style="color: var(--cyan);">What this actually looks like</h3>
+        <div class="section-divider"></div>
+        <div class="card" style="margin-bottom: 10px;">
+          <div class="tag">Month 1</div>
+          <p style="font-size:12px;"><strong>Research & outreach.</strong> Map the highest-density bodegas, barbershops, churches and high-traffic spots (subway exits, plazas) in Washington Heights, Bronx, Paterson NJ. Begin reaching out to owners and community ambassadors (bodega owners, barbershop owners, local sports figures). Brief and contract a promoter agency for branded tents. Coordinate the first wave of locations, materials, QR codes and referral kits.</p>
+        </div>
+        <div class="card" style="margin-bottom: 10px;">
+          <div class="tag">Month 2</div>
+          <p style="font-size:12px;"><strong>Go live.</strong> Posters (QR &rarr; WhatsApp) in 20+ bodegas/area. Barbershops/salons activated &mdash; staff gets a referral QR code and a bonus per new account. <strong>Branded tents with promoters and flyers</strong> in the high-traffic spots &mdash; assisted first send on the spot.</p>
+        </div>
+        <div class="card">
+          <div class="tag">Month 3</div>
+          <p style="font-size:12px;"><strong>Word of mouth becomes the engine.</strong> The same people keep coming back to the same bodegas, barbershops and tents &mdash; promoters recognize them, ask how the first send went, and push the second one on the spot. Every satisfied user tells a neighbor. Top bodegas get permanent "F&eacute;lix Point" signage so the brand stays present even when promoters aren't there. Track neighborhood-level repeat sends and referral rates.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="anim anim-d4">
+      <h3 style="margin-bottom: 10px;">How being in person drives the first and second transaction</h3>
+      <div class="grid-3">
+        <div class="card" style="border-top: 3px solid var(--cyan);">
+          <h3 style="font-size: 13px; color: var(--cyan);">Getting to Tx1</h3>
+          <p style="font-size: 12px;">Someone walks you through it face-to-face. You watch the money arrive. Fear gone. "Mira, es solo un WhatsApp y ya."</p>
+        </div>
+        <div class="card" style="border-top: 3px solid var(--accent-warm);">
+          <h3 style="font-size: 13px; color: var(--accent-warm);">Getting to Tx2</h3>
+          <p style="font-size: 12px;">You go back to the bodega, the owner says "&iquest;ya lo usaste otra vez?"</p>
+        </div>
+        <div class="card" style="border-top: 3px solid var(--cyan);">
+          <h3 style="font-size: 13px; color: var(--cyan);">Making it a habit</h3>
+          <p style="font-size: 12px;">Sending becomes a habit because the brand is already present in the places they visit every week &mdash; bodegas, barbershops, churches. F&eacute;lix stops being an app and becomes part of the routine.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="anim anim-d5" style="background: rgba(43,242,241,0.06); border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; padding: 12px 16px;">
+      <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px;">How I'd measure this</div>
+      <p style="font-size: 12px; line-height: 1.6; margin: 0; opacity: 0.9;">QR clicks per location, first env&iacute;os and total env&iacute;os per neighborhood, repeat-send rate within 30 days, CAC measured per env&iacute;o, and referrals generated by each ambassador. The bet: retention is stronger because trust is built in person.</p>
+    </div>
+
+    <div class="two-col anim anim-d6" style="margin-top: 14px;">
+      <div>
+        <h3 style="color: var(--cyan);">What I own</h3>
+        <div class="section-divider"></div>
+        <ul class="compact-list" style="font-size:12px;">
+          <li>Mapping locations, recruiting ambassadors and bodega/barbershop partners.</li>
+          <li>Promoter agency, tents, on-site execution and the assisted first-send experience.</li>
+          <li>Tracking by neighborhood, iterating on what converts.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Where I need help from the marketing team</h3>
+        <div class="section-divider"></div>
+        <ul class="compact-list" style="font-size:12px;">
+          <li><strong>Paid ads:</strong> geo-targeted to the activation zones so customers get touched multiple times before and after the visit.</li>
+          <li><strong>Social media:</strong> feature our ambassadors, announce where we'll be on the ground, and post photos from each activation.</li>
+          <li><strong>Kits & merch:</strong> branded kits sent to ambassadors and partners so they feel part of the brand.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SLIDE 5 REMOVED -->
+<div style="display:none;" data-slide="5-removed">
+  <div class="slide-label anim anim-d1">Deep Dive 3 &middot; Time-sensitive cultural moments</div>
+  <h2 class="anim anim-d2">Cultural & community events</h2>
+  <p class="subtitle anim anim-d2">Show up where the community gathers in moments of <strong>high cultural pride and emotion</strong> &mdash; when people are most connected to home and most open to sending money. <strong>The next big dates are weeks away.</strong></p>
+
+  <div class="content-area">
+
+    <!-- Why now -->
+    <div class="anim anim-d2" style="background: rgba(245,158,11,0.10); border-left: 3px solid var(--accent-warm); border-radius: 0 10px 10px 0; padding: 12px 16px; margin-bottom: 14px;">
+      <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent-warm); margin-bottom: 4px;">Why this is the third deep dive &mdash; and why now</div>
+      <ul style="font-size: 11px; line-height: 1.55; margin: 0; padding-left: 18px; opacity: 0.9;">
+        <li><strong>Colombian Independence Week (Jul 20)</strong> triggers 8+ festivals across the U.S. in a single week &mdash; the biggest CO moment of the year. Planning starts now.</li>
+        <li><strong>Dominican Day Parade NYC (Aug 9)</strong> &mdash; 400K+ attendees, the largest single DR gathering in the U.S.</li>
+        <li>Cultural events are the <strong>only initiative with hard deadlines</strong>: miss the date and you wait a full year.</li>
+        <li>They cover all three goals: <strong>acquisition</strong> (massive foot traffic), <strong>first transaction</strong> (emotional pull + on-site assistance), <strong>second transaction</strong> (the moment becomes a memory tied to F&eacute;lix).</li>
+      </ul>
+    </div>
+
+    <!-- Key dates by corridor -->
+    <div class="two-col anim anim-d3">
+      <div class="card" style="border-left: 3px solid #e875b2;">
+        <div class="tag dr">&#127465;&#127476; DR &mdash; key dates</div>
+        <ul class="compact-list" style="font-size:11px;">
+          <li><strong>Dominican Day Parade NYC</strong> &mdash; Aug 9 (400K+ attendees)</li>
+          <li><strong>Dominican Parade NJ</strong> &mdash; Sep 13</li>
+          <li><strong>LIDOM baseball season</strong> &mdash; Oct&ndash;Feb (cultural identity moment)</li>
+          <li><strong>Navidad + D&iacute;a de Reyes</strong> &mdash; Dec/Jan (high gift-send window)</li>
+          <li><strong>Independencia Dominicana</strong> &mdash; Feb 27</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left: 3px solid #f5a623;">
+        <div class="tag co">&#127464;&#127476; CO &mdash; key dates</div>
+        <ul class="compact-list" style="font-size:11px;">
+          <li><strong>Colombian Independence Week</strong> &mdash; Jul 20: <strong>8+ festivals</strong> in one week (Chicago, Dallas, Houston, Miami, NYC, Fort Lauderdale)</li>
+          <li><strong>Feria de Cali + Novenas</strong> &mdash; Dec 16&ndash;30</li>
+          <li>Regional patron-saint festivals throughout the year (coste&ntilde;os, valluneos, paisas)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Big vs small events -->
+    <div class="anim anim-d4" style="margin-top: 14px;">
+      <h3 style="margin-bottom: 10px;">Not just the big events &mdash; the small ones too</h3>
+      <div class="grid-3">
+        <div class="card" style="border-top: 3px solid var(--cyan);">
+          <h3 style="font-size: 13px; color: var(--cyan);">Big moments</h3>
+          <p style="font-size: 11px;">Parades, national festivals, independence days. Massive reach, brand-building, photo ops with creators on-site. Best paired with paid social amplification.</p>
+        </div>
+        <div class="card" style="border-top: 3px solid var(--accent-warm);">
+          <h3 style="font-size: 13px; color: var(--accent-warm);">Small gatherings</h3>
+          <p style="font-size: 11px;">Neighborhood fairs, local sports leagues, cultural nights, church events. Lower cost, higher trust, direct conversations. The conversion engine.</p>
+        </div>
+        <div class="card" style="border-top: 3px solid var(--cyan);">
+          <h3 style="font-size: 13px; color: var(--cyan);">Why it works</h3>
+          <p style="font-size: 11px;">F&eacute;lix is a digital product. Seeing a real human behind the brand at a moment of cultural pride creates trust no screen can match.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 90-day plan -->
+    <div class="grid-3 anim anim-d5" style="margin-top: 14px;">
+      <div class="card">
+        <div class="tag">Month 1 &middot; Lock the calendar</div>
+        <h3>Plan & secure</h3>
+        <ul class="compact-list" style="font-size:11px;">
+          <li><strong>Lock Colombian Independence Week (Jul 20)</strong> first &mdash; 8+ festivals, one week, biggest CO moment.</li>
+          <li>Secure sponsorships, booths, or activations at top 3 DR + top 3 CO events.</li>
+          <li>Coordinate with creators (Deep Dive 1) to attend events &mdash; live content multiplies reach.</li>
+          <li>Design the booth experience: assisted first-send, free WhatsApp send, small gift, photo moment.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="tag">Month 2 &middot; Activate</div>
+        <h3>Show up & convert</h3>
+        <ul class="compact-list" style="font-size:11px;">
+          <li><strong>Jul 20 push</strong> &mdash; on-site activations across all 8+ festivals + creator content + paid amplification the same week.</li>
+          <li>Onsite reps walk attendees through their first transfer; recipient gets the money before they leave the booth.</li>
+          <li>Capture content at every event &mdash; reuse on paid, social, and CRM.</li>
+          <li>Track sign-ups by event with unique QR codes per location.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="tag">Month 3 &middot; Build the calendar</div>
+        <h3>Make it ongoing</h3>
+        <ul class="compact-list" style="font-size:11px;">
+          <li><strong>Prep Dominican Day Parade NYC (Aug 9)</strong> &mdash; 400K+ attendees, the biggest single DR moment.</li>
+          <li>Build a year-round event calendar by corridor with owners and budgets.</li>
+          <li>Identify recurring small gatherings to attend monthly, not just annually.</li>
+          <li>Tx2 nudges referencing the event ("we met you at the parade &mdash; ready to send again?").</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Ownership -->
+    <div class="two-col anim anim-d6" style="margin-top: 14px;">
+      <div>
+        <h3 style="color: var(--cyan);">What I own</h3>
+        <div class="section-divider"></div>
+        <ul class="compact-list" style="font-size:12px;">
+          <li><strong>Calendar & prioritization:</strong> which events, which corridors, which dates win.</li>
+          <li><strong>Partnerships:</strong> sponsors, organizers, community leaders, on-site creators.</li>
+          <li><strong>Booth experience & on-the-ground execution.</strong></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Where I need help from the marketing team</h3>
+        <div class="section-divider"></div>
+        <ul class="compact-list" style="font-size:12px;">
+          <li><strong>Paid:</strong> geo-targeted ads around event dates and locations.</li>
+          <li><strong>Social media:</strong> live coverage, Reels, Stories, post-event recaps.</li>
+          <li><strong>CRM:</strong> pre-event "see you there" + post-event "we met you at" sequences.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<nav class="nav" id="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&larr;</button>
+  <div class="nav-dot active" onclick="goToSlide(0)"></div>
+  <div class="nav-dot" onclick="goToSlide(1)"></div>
+  <div class="nav-dot" onclick="goToSlide(2)"></div>
+  <div class="nav-dot" onclick="goToSlide(3)"></div>
+  <div class="nav-dot" onclick="goToSlide(4)"></div>
+  <span class="nav-label" id="navLabel">1 / 6</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">&rarr;</button>
+</nav>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.nav-dot');
+const total = slides.length;
+
+function goToSlide(n) {
+  if (n < 0 || n >= total) return;
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+  slides[current].scrollTop = 0;
+  document.getElementById('navLabel').textContent = (current + 1) + ' / ' + total;
+  document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+}
+
+function changeSlide(dir) { goToSlide(current + dir); }
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); changeSlide(-1); }
+});
+
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', (e) => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+});
+
+document.getElementById('progress').style.width = (1 / total * 100) + '%';
+</script>
+
+</body>
+</html>
