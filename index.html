@@ -728,12 +728,211 @@ tr:last-child td { border-bottom: none; }
     color: #2bf2f1 !important;
   }
 }
+
+/* ─────────────────────────────────────────────────
+   Enhanced interactivity & polish
+   ───────────────────────────────────────────────── */
+
+/* Staggered entrance for common child elements on any active slide */
+@keyframes felixFadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.slide.active > *:not(.anim),
+.slide.active .card,
+.slide.active .verdict-box,
+.slide.active .flow-step,
+.slide.active .metric,
+.slide.active .timeline-phase,
+.slide.active .callout {
+  animation: felixFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.slide.active .card:nth-child(1),
+.slide.active .verdict-box:nth-child(1),
+.slide.active .flow-step:nth-child(1) { animation-delay: 0.12s; }
+.slide.active .card:nth-child(2),
+.slide.active .verdict-box:nth-child(2),
+.slide.active .flow-step:nth-child(2) { animation-delay: 0.20s; }
+.slide.active .card:nth-child(3),
+.slide.active .verdict-box:nth-child(3),
+.slide.active .flow-step:nth-child(3) { animation-delay: 0.28s; }
+.slide.active .card:nth-child(4),
+.slide.active .flow-step:nth-child(4) { animation-delay: 0.36s; }
+.slide.active .card:nth-child(5) { animation-delay: 0.44s; }
+.slide.active .card:nth-child(6) { animation-delay: 0.52s; }
+
+/* Card lift + cyan glow on hover */
+.card, .verdict-box, .flow-step, .timeline-phase, .metric {
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
+  will-change: transform;
+}
+.card:hover, .verdict-box:hover, .flow-step:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(43,242,241,0.18),
+              0 0 0 1px rgba(43,242,241,0.35);
+}
+.bg-light .card:hover, .bg-white .card:hover {
+  box-shadow: 0 14px 40px rgba(8,36,34,0.12),
+              0 0 0 1px rgba(43,242,241,0.45);
+}
+
+/* Animated radial background on dark slides */
+@keyframes felixDrift {
+  0%   { transform: translate(0,0) scale(1); opacity: 0.55; }
+  50%  { transform: translate(3%, -2%) scale(1.08); opacity: 0.9; }
+  100% { transform: translate(0,0) scale(1); opacity: 0.55; }
+}
+.bg-dark::after {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(43,242,241,0.12) 0%, transparent 42%),
+    radial-gradient(circle at 80% 70%, rgba(43,242,241,0.08) 0%, transparent 45%),
+    radial-gradient(circle at 60% 20%, rgba(43,242,241,0.05) 0%, transparent 50%);
+  animation: felixDrift 18s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-dark > * { position: relative; z-index: 1; }
+
+/* Floating particles layer */
+.particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.particles span {
+  position: absolute;
+  bottom: -20px;
+  width: 4px;
+  height: 4px;
+  background: var(--cyan);
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 0 0 8px rgba(43,242,241,0.6);
+  animation: felixFloat linear infinite;
+}
+@keyframes felixFloat {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 0.55; }
+  90%  { opacity: 0.55; }
+  100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
+}
+.particles span:nth-child(1)  { left: 6%;  animation-duration: 22s; animation-delay: 0s; }
+.particles span:nth-child(2)  { left: 14%; animation-duration: 28s; animation-delay: 3s; }
+.particles span:nth-child(3)  { left: 22%; animation-duration: 19s; animation-delay: 1s; }
+.particles span:nth-child(4)  { left: 32%; animation-duration: 25s; animation-delay: 6s; width: 3px; height: 3px; }
+.particles span:nth-child(5)  { left: 42%; animation-duration: 30s; animation-delay: 2s; }
+.particles span:nth-child(6)  { left: 52%; animation-duration: 21s; animation-delay: 5s; width: 5px; height: 5px; }
+.particles span:nth-child(7)  { left: 61%; animation-duration: 27s; animation-delay: 0s; }
+.particles span:nth-child(8)  { left: 70%; animation-duration: 23s; animation-delay: 4s; }
+.particles span:nth-child(9)  { left: 78%; animation-duration: 26s; animation-delay: 7s; width: 3px; height: 3px; }
+.particles span:nth-child(10) { left: 86%; animation-duration: 24s; animation-delay: 2s; }
+.particles span:nth-child(11) { left: 93%; animation-duration: 29s; animation-delay: 5s; }
+body:not(.dark-active) .particles { display: none; }
+
+/* Cursor-follow glow on dark slides */
+.cursor-glow {
+  position: fixed;
+  top: 0; left: 0;
+  width: 520px;
+  height: 520px;
+  margin: -260px 0 0 -260px;
+  background: radial-gradient(circle, rgba(43,242,241,0.14) 0%, rgba(43,242,241,0.05) 35%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+body.dark-active .cursor-glow { opacity: 1; }
+
+/* Keyboard hint pill (bottom right) */
+.kbd-hint {
+  position: fixed;
+  right: 20px;
+  bottom: 28px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: rgba(8,36,34,0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(43,242,241,0.15);
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.3px;
+}
+.kbd-hint .sep { opacity: 0.3; }
+.kbd-hint kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  background: rgba(43,242,241,0.12);
+  border: 1px solid rgba(43,242,241,0.25);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 10px;
+  color: var(--cyan);
+}
+.bg-light ~ .kbd-hint, .bg-white ~ .kbd-hint { } /* no-op, stays global */
+
+/* Animated chart/bar fills */
+.bar {
+  position: relative;
+  height: 8px;
+  background: rgba(43,242,241,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: var(--gradient-cyan);
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(43,242,241,0.4);
+  transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.slide.active .bar-fill[data-target] { width: var(--bar-target, 0%); }
+
+/* Progress bar polish */
+.progress-bar {
+  width: 0;
+}
+
+/* Print: kill all animations & decorative layers */
+@media print {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .particles, .cursor-glow, .kbd-hint, .bg-dark::after { display: none !important; }
+  .slide.active > *,
+  .slide.active .card,
+  .slide.active .verdict-box,
+  .slide.active .flow-step,
+  .slide.active .metric {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 </style>
 </head>
 <body>
 
 <div class="felix-logo"><span>F&eacute;lix</span></div>
 <div class="progress-bar" id="progress"></div>
+<div class="particles" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
 <div class="deck" id="deck">
 
@@ -754,7 +953,7 @@ tr:last-child td { border-bottom: none; }
         <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan);">Dominican Republic</span>
       </div>
       <div class="metric" style="padding: 4px 0 14px; text-align: left; border-bottom: 1px solid rgba(43,242,241,0.1); margin-bottom: 14px;">
-        <div class="num" style="font-size: 40px;">~$9.1B</div>
+        <div class="num" style="font-size: 40px;" data-count="9.1" data-prefix="~$" data-suffix="B" data-decimals="1">~$9.1B</div>
         <div class="label" style="text-align: left;">Received from the U.S. (2024) &nbsp;&middot;&nbsp; ~85% of total</div>
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
@@ -781,7 +980,7 @@ tr:last-child td { border-bottom: none; }
         <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan);">Colombia</span>
       </div>
       <div class="metric" style="padding: 4px 0 14px; text-align: left; border-bottom: 1px solid rgba(43,242,241,0.1); margin-bottom: 14px;">
-        <div class="num" style="font-size: 40px;">~$6.9B</div>
+        <div class="num" style="font-size: 40px;" data-count="6.9" data-prefix="~$" data-suffix="B" data-decimals="1">~$6.9B</div>
         <div class="label" style="text-align: left;">Received from the U.S. (2025) &nbsp;&middot;&nbsp; 53% of total</div>
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
@@ -1323,22 +1522,77 @@ tr:last-child td { border-bottom: none; }
   <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">&rarr;</button>
 </nav>
 
+<div class="kbd-hint" id="kbdHint">
+  <span><kbd>&larr;</kbd> <kbd>&rarr;</kbd> navigate</span>
+  <span class="sep">&middot;</span>
+  <span id="kbdCounter">1 / 6</span>
+</div>
+
 <script>
 let current = 0;
 const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.nav-dot');
 const total = slides.length;
 
+/* ── Animated number counters ── */
+function animateCounter(el) {
+  if (el.dataset.counted === '1') return;
+  const target = parseFloat(el.dataset.count);
+  if (isNaN(target)) return;
+  const decimals = parseInt(el.dataset.decimals || '0', 10);
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  const duration = 1200;
+  const start = performance.now();
+  el.dataset.counted = '1';
+  function tick(now) {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const val = (target * eased).toFixed(decimals);
+    el.textContent = prefix + val + suffix;
+    if (t < 1) requestAnimationFrame(tick);
+    else el.textContent = prefix + target.toFixed(decimals) + suffix;
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ── Animated bars ── */
+function animateBars(slideEl) {
+  slideEl.querySelectorAll('.bar-fill[data-target]').forEach(bar => {
+    const pct = bar.dataset.target;
+    bar.style.setProperty('--bar-target', pct);
+    bar.style.width = pct;
+  });
+}
+
+function runSlideAnimations(slideEl) {
+  slideEl.querySelectorAll('[data-count]').forEach(el => {
+    el.dataset.counted = '0';
+    animateCounter(el);
+  });
+  animateBars(slideEl);
+}
+
+function updateDarkState() {
+  const isDark = slides[current].classList.contains('bg-dark');
+  document.body.classList.toggle('dark-active', isDark);
+}
+
 function goToSlide(n) {
   if (n < 0 || n >= total) return;
   slides[current].classList.remove('active');
-  dots[current].classList.remove('active');
+  if (dots[current]) dots[current].classList.remove('active');
   current = n;
   slides[current].classList.add('active');
-  dots[current].classList.add('active');
+  if (dots[current]) dots[current].classList.add('active');
   slides[current].scrollTop = 0;
-  document.getElementById('navLabel').textContent = (current + 1) + ' / ' + total;
+  const label = (current + 1) + ' / ' + total;
+  const navLabel = document.getElementById('navLabel');
+  if (navLabel) navLabel.textContent = label;
+  document.getElementById('kbdCounter').textContent = label;
   document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+  updateDarkState();
+  runSlideAnimations(slides[current]);
 }
 
 function changeSlide(dir) { goToSlide(current + dir); }
@@ -1355,7 +1609,17 @@ document.addEventListener('touchend', (e) => {
   if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
 });
 
+/* ── Cursor-follow glow ── */
+const cursorGlow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', (e) => {
+  cursorGlow.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
+});
+
+/* Init */
 document.getElementById('progress').style.width = (1 / total * 100) + '%';
+document.getElementById('kbdCounter').textContent = '1 / ' + total;
+updateDarkState();
+runSlideAnimations(slides[0]);
 </script>
 
 </body>
