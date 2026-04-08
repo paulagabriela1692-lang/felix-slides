@@ -40,12 +40,16 @@ body {
   inset: 0;
   display: flex;
   flex-direction: column;
-  padding: 48px 64px;
+  padding: 64px 88px;
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(43,242,241,0.3) transparent;
 }
@@ -109,49 +113,59 @@ h1 .highlight {
 }
 
 h2 {
-  font-size: 34px;
+  font-size: 36px;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.2;
   letter-spacing: -0.8px;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 
 h3 {
   font-size: 17px;
   font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 8px;
+  line-height: 1.35;
+  margin-bottom: 12px;
 }
 
 .subtitle {
   font-size: 17px;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.7;
   opacity: 0.75;
-  max-width: 660px;
-  margin-bottom: 32px;
+  max-width: 720px;
+  margin-bottom: 44px;
 }
 
-p, li { font-size: 14px; line-height: 1.65; }
+p, li { font-size: 14px; line-height: 1.75; }
+li + li { margin-top: 6px; }
 
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex: 1; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 22px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px; }
 
 .card {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(43,242,241,0.12);
   border-radius: 16px;
-  padding: 24px;
-  transition: all 0.3s ease;
+  padding: 28px 30px;
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease, border-color 0.35s ease;
   position: relative;
   overflow: hidden;
 }
 
+.card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(43,242,241,0.18), transparent 55%);
+  opacity: 0; transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.card:hover::before { opacity: 1; }
+
 .card:hover {
-  border-color: rgba(43,242,241,0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(43,242,241,0.08);
+  border-color: rgba(43,242,241,0.45);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 16px 44px rgba(43,242,241,0.15), 0 0 0 1px rgba(43,242,241,0.25);
 }
 
 .card.light {
@@ -396,16 +410,16 @@ tr:last-child td { border-bottom: none; }
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px;
   overflow-y: auto;
   min-height: 0;
-  padding-bottom: 60px;
+  padding-bottom: 80px;
 }
 
 .two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 40px;
   align-items: start;
 }
 
@@ -925,6 +939,66 @@ body.dark-active .cursor-glow { opacity: 1; }
     transform: none !important;
   }
 }
+/* ===== fun & interactive polish ===== */
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 0 0 rgba(43,242,241,0.4); }
+  50% { box-shadow: 0 0 0 14px rgba(43,242,241,0); }
+}
+@keyframes gradientShift {
+  0%,100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes floaty {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.slide.active h2 {
+  background: linear-gradient(90deg, #ffffff 0%, #2bf2f1 50%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease-in-out infinite;
+}
+.bg-light.slide.active h2, .bg-white.slide.active h2 {
+  background: linear-gradient(90deg, #082422 0%, #0ed4d3 50%, #082422 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease-in-out infinite;
+}
+.big-stat, .metric-value, [data-count] { display: inline-block; }
+.slide.active .big-stat { animation: floaty 4s ease-in-out infinite; }
+.tag {
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.tag:hover { transform: translateY(-2px) scale(1.05); }
+.verdict-box, .flow-step, .timeline-phase {
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease;
+}
+.verdict-box:hover, .flow-step:hover, .timeline-phase:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(43,242,241,0.12);
+}
+/* click ripple */
+.ripple {
+  position: absolute; border-radius: 50%;
+  background: rgba(43,242,241,0.35);
+  transform: scale(0); animation: rippleAnim 0.7s ease-out;
+  pointer-events: none;
+}
+@keyframes rippleAnim {
+  to { transform: scale(4); opacity: 0; }
+}
+/* nav arrows — gentle bounce hint */
+@keyframes navHint {
+  0%,100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+.kbd-hint { animation: navHint 2.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide.active h2, .slide.active .big-stat, .kbd-hint { animation: none; }
+}
 </style>
 </head>
 <body>
@@ -1306,16 +1380,7 @@ body.dark-active .cursor-glow { opacity: 1; }
 
     <div class="two-col anim anim-d3">
       <div>
-        <h3 style="color: var(--cyan);">Why this matters more for DR than CO</h3>
-        <div class="section-divider"></div>
-        <ul class="compact-list" style="font-size:12px;">
-          <li>DR community in NYC is more conservative with money. Same habit for years.</li>
-          <li>Only <strong>~29% use bank deposits</strong> in DR. Most pick up cash at agents.</li>
-          <li>Word of mouth happens at bodegas, barbershops, church.</li>
-          <li>Mexico was won online. DR needs hybrid: digital to scale, physical to trust.</li>
-        </ul>
-
-        <h3 style="margin-top: 20px; color: var(--cyan);">Where specifically</h3>
+        <h3 style="color: var(--cyan);">Where specifically</h3>
         <div class="section-divider"></div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <span style="background: rgba(43,242,241,0.12); color: var(--cyan); padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 600;">Washington Heights</span>
@@ -1343,25 +1408,7 @@ body.dark-active .cursor-glow { opacity: 1; }
       </div>
     </div>
 
-    <div class="anim anim-d4">
-      <h3 style="margin-bottom: 10px;">How being in person drives the first and second transaction</h3>
-      <div class="grid-3">
-        <div class="card" style="border-top: 3px solid var(--cyan);">
-          <h3 style="font-size: 13px; color: var(--cyan);">Getting to Tx1</h3>
-          <p style="font-size: 12px;">Someone walks you through it face-to-face. You watch the money arrive. Fear gone. "Mira, es solo un WhatsApp y ya."</p>
-        </div>
-        <div class="card" style="border-top: 3px solid var(--accent-warm);">
-          <h3 style="font-size: 13px; color: var(--accent-warm);">Getting to Tx2</h3>
-          <p style="font-size: 12px;">You go back to the bodega, the owner says "&iquest;ya lo usaste otra vez?"</p>
-        </div>
-        <div class="card" style="border-top: 3px solid var(--cyan);">
-          <h3 style="font-size: 13px; color: var(--cyan);">Making it a habit</h3>
-          <p style="font-size: 12px;">Sending becomes a habit because the brand is already present in the places they visit every week &mdash; bodegas, barbershops, churches. F&eacute;lix stops being an app and becomes part of the routine.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="anim anim-d5" style="background: rgba(43,242,241,0.06); border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; padding: 12px 16px;">
+<div class="anim anim-d5" style="background: rgba(43,242,241,0.06); border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; padding: 12px 16px;">
       <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px;">How I'd measure this</div>
       <p style="font-size: 12px; line-height: 1.6; margin: 0; opacity: 0.9;">QR clicks per location, first env&iacute;os and total env&iacute;os per neighborhood, repeat-send rate within 30 days, CAC measured per env&iacute;o, and referrals generated by each ambassador. The bet: retention is stronger because trust is built in person.</p>
     </div>
@@ -1374,6 +1421,7 @@ body.dark-active .cursor-glow { opacity: 1; }
           <li>Mapping locations, recruiting ambassadors and bodega/barbershop partners.</li>
           <li>Promoter agency, tents, on-site execution and the assisted first-send experience.</li>
           <li>Tracking by neighborhood, iterating on what converts.</li>
+          <li><strong>Kits &amp; merch:</strong> branded kits sent to ambassadors and partners so they feel part of the brand.</li>
         </ul>
       </div>
       <div>
