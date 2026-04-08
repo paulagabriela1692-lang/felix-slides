@@ -939,6 +939,19 @@ body.dark-active .cursor-glow { opacity: 1; }
     transform: none !important;
   }
 }
+/* ===== compact slide override ===== */
+.slide-compact { padding: 44px 72px; }
+.slide-compact h2 { font-size: 30px; margin-bottom: 10px; }
+.slide-compact .subtitle { font-size: 14px; margin-bottom: 18px; line-height: 1.55; }
+.slide-compact .content-area { gap: 14px; padding-bottom: 32px; }
+.slide-compact .two-col { gap: 24px; }
+.slide-compact .card { padding: 14px 16px; }
+.slide-compact .card p { font-size: 11.5px; line-height: 1.5; }
+.slide-compact h3 { font-size: 14px; margin-bottom: 6px; }
+.slide-compact .section-divider { margin-bottom: 8px; }
+.slide-compact .compact-list li { margin-top: 3px; }
+.slide-compact ul li { line-height: 1.5; }
+
 /* ===== fun & interactive polish ===== */
 @keyframes pulseGlow {
   0%,100% { box-shadow: 0 0 0 0 rgba(43,242,241,0.4); }
@@ -1349,7 +1362,7 @@ body.dark-active .cursor-glow { opacity: 1; }
 <!-- ═══════════════════════════════════════ -->
 <!-- SLIDE 4: DEEP DIVE - FIELD + METRICS -->
 <!-- ═══════════════════════════════════════ -->
-<div class="slide bg-dark" data-slide="4">
+<div class="slide bg-dark slide-compact" data-slide="4">
   <div class="slide-label anim anim-d1">Deep Dive 2 &middot; DR-specific high-impact play</div>
   <h2 class="anim anim-d2">Field activation <span style="color: var(--cyan);">(DR focus)</span></h2>
   <p class="subtitle anim anim-d2">How showing up in person helps us <strong>acquire users, convert them to a first transaction, and drive the second one quickly</strong> &mdash; in the corridor where digital alone won't break the habit.</p>
